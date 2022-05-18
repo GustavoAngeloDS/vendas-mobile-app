@@ -12,17 +12,39 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp (
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/main-menu',
+      //initialRoute: '/main-menu',
       routes: {
         '/main-menu': (context) => const MainMenuPage(),
         '/new-product': (context) => const NewProductPage(),
-  },
-      home: const NewProductPage(),
-    );
-  }
-}
+      },
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text("VenDAS"),
+        ),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              const DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: Text('Menu principal'),
+              ),
+              ListTile(
+                title: const Text("Cadastrar produto"),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, "/new-product");
+                },
+              ),
+            ],
+          ),
+        )));
+    
+  }}
