@@ -40,7 +40,7 @@ class _UpdateProductState extends State<UpdateProductPage> {
     }
   }
 
-  void _saveProduct() async {
+  Future<Product?> _saveProduct() async {
     _product!.description = _descriptionController.text;
     try{
       await repository.update(_product!);
@@ -76,9 +76,9 @@ class _UpdateProductState extends State<UpdateProductPage> {
               ),
               Row(children: [
                 ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        _saveProduct();
+                        await _saveProduct();
                         Navigator.pushNamed(context, Routes.listProducts);
                       }
                     },
