@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:vendas_flutter/routes/routes.dart';
 import 'package:vendas_flutter/view/list_product_page.dart';
 import 'package:vendas_flutter/view/new_product_page.dart';
-import 'package:vendas_flutter/view/order/list_order_page.dart';
 import 'package:vendas_flutter/view/update_product.dart';
 import 'package:vendas_flutter/widgets/drawer.dart';
 
@@ -16,15 +15,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: "VenDAS",
-        theme: ThemeData(primarySwatch: Colors.grey),
-        home: const MyHomePage(title: "VenDAS"),
-        routes: {
-          Routes.listProducts: (context) => const ListProductPage(),
-          Routes.newProduct: (context) => const NewProductPage(),
-          Routes.updateProduct: (context) => const UpdateProductPage(),
-          Routes.listOrders: (context) => const ListOrderPage(),
-        });
+      title: "VenDAS",
+      theme: ThemeData(
+        primarySwatch: Colors.grey
+      ),
+      home: const MyHomePage(title: "VenDAS"),
+      routes: {
+        Routes.listProducts: (context) => const ListProductPage(),
+        Routes.newProduct: (context) => const NewProductPage(),
+        Routes.updateProduct: (context) => const UpdateProductPage(),
+      }
+    );
   }
 }
 
@@ -40,7 +41,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
+      appBar: AppBar(
+        title: Text(widget.title)
+      ),
       drawer: AppDrawer(),
     );
   }
