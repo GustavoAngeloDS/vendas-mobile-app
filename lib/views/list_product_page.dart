@@ -3,18 +3,17 @@ import 'package:vendas_flutter/models/product.model.dart';
 import 'package:vendas_flutter/repository/product.repository.dart';
 import 'package:vendas_flutter/routes/routes.dart';
 import 'package:vendas_flutter/utils/error_handler.dart';
-import 'package:vendas_flutter/views/update_product.dart';
-import 'package:vendas_flutter/views/new_product_page.dart';
+import 'package:vendas_flutter/widgets/drawer.dart';
 
-class ProductPage extends StatefulWidget {
-  const ProductPage({Key? key}) : super(key: key);
+class ListProductPage extends StatefulWidget {
+  const ListProductPage({Key? key}) : super(key: key);
   static const String routeName = "/list-products";
 
   @override
-  State<StatefulWidget> createState() => _ProductPage();
+  State<StatefulWidget> createState() => _ListProductPage();
 }
 
-class _ProductPage extends State<ProductPage> {
+class _ListProductPage extends State<ListProductPage> {
   List<Product> _productList = [];
   ProductRepository repository = ProductRepository();
 
@@ -51,7 +50,7 @@ class _ProductPage extends State<ProductPage> {
     try {
       await repository.remove(product);
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Produto removido com sucesso')));
+          const SnackBar(content: Text('Produto removido com suecsso')));
     } catch (exception) {
       ErrorHandler()
           .showError(context, "Erro ao remover produto", exception.toString());
@@ -140,7 +139,8 @@ class _ProductPage extends State<ProductPage> {
           onPressed: () {
             Navigator.pushNamed(context, Routes.newProduct);
           },
-          backgroundColor: Colors.blue,
+          tooltip: "Adicionar produto",
+          backgroundColor: Colors.green,
           child: const Icon(Icons.add),
         ));
   }

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:vendas_flutter/routes/routes.dart';
-
-import 'package:vendas_flutter/views/product_page.dart';
+import 'package:vendas_flutter/views/list_product_page.dart';
 import 'package:vendas_flutter/views/new_product_page.dart';
 import 'package:vendas_flutter/views/update_product.dart';
-
-// import 'package:vendas_flutter/views/ClientPage.dart';
-// import 'package:vendas_flutter/views/OrderPage.dart';
+import 'package:vendas_flutter/widgets/drawer.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,7 +19,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(primarySwatch: Colors.grey),
         home: const MyHomePage(title: "VenDAS"),
         routes: {
-          Routes.listProducts: (context) => const ProductPage(),
+          Routes.listProducts: (context) => const ListProductPage(),
           Routes.newProduct: (context) => const NewProductPage(),
           Routes.updateProduct: (context) => const UpdateProductPage(),
         });
@@ -38,48 +35,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _currentIndex = 0;
-
-  final List<Widget> _children = [
-    // ClientPage(),
-    const ProductPage(),
-    const ProductPage(),
-    const ProductPage(),
-    //OrderPage()
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
-      body: _children[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: onTabTapped,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Clientes',
-            backgroundColor: Colors.blue,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.storefront),
-            label: 'Produtos',
-            backgroundColor: Colors.green,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_basket),
-            label: 'Pedidos',
-            backgroundColor: Colors.red,
-          ),
-        ],
-      ),
+      drawer: const AppDrawer(),
     );
-  }
-
-  void onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
   }
 }

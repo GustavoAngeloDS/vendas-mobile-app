@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vendas_flutter/models/product.model.dart';
+import 'package:vendas_flutter/routes/routes.dart';
 import 'package:vendas_flutter/utils/error_handler.dart';
-import 'package:vendas_flutter/views/product_page.dart';
+import 'package:vendas_flutter/widgets/drawer.dart';
 
 import '../repository/product.repository.dart';
 
@@ -79,7 +80,7 @@ class _UpdateProductState extends State<UpdateProductPage> {
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         await _saveProduct();
-                        Navigator.pushNamed(context, ProductPage.routeName);
+                        Navigator.pushNamed(context, Routes.listProducts);
                       }
                     },
                     child: const Text("Salvar")),
@@ -105,6 +106,7 @@ class _UpdateProductState extends State<UpdateProductPage> {
         appBar: AppBar(
           title: const Text("Editar produto"),
         ),
+        drawer: const AppDrawer(),
         body: _buildForm(context));
   }
 }

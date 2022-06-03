@@ -1,31 +1,23 @@
 import 'dart:convert';
 
 class Product {
-  int ?id;
+  int? id;
   String description;
 
-  Product(this.id, this.description); 
+  Product(this.id, this.description);
 
   Product.create(this.description);
-  
+
   Map<String, dynamic> newProductToMap() {
-    return {
-      "description": description
-    };
+    return {"description": description};
   }
 
   Map<String, dynamic> fullProductToMap() {
-    return {
-      "id": id,
-      "description": description
-    };
+    return {"id": id, "description": description};
   }
 
   static Product fromMap(Map<String, dynamic> map) {
-    return Product(
-      map["id"],
-      map["description"]
-    );
+    return Product(map["id"], map["description"]);
   }
 
   static List<Product> fromMaps(List<Map<String, dynamic>> maps) {
@@ -44,6 +36,4 @@ class Product {
   String newProductToJson() => jsonEncode(newProductToMap());
 
   String fullProductToJson() => jsonEncode(fullProductToMap());
-
-
 }
