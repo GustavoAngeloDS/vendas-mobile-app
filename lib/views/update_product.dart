@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vendas_flutter/models/product.model.dart';
 import 'package:vendas_flutter/routes/routes.dart';
@@ -32,20 +31,22 @@ class _UpdateProductState extends State<UpdateProductPage> {
   }
 
   void _findProduct() async {
-    try{
+    try {
       _product = await repository.findById(_id);
       _descriptionController.text = _product!.description;
-    } catch(exception) {
-      ErrorHandler().showError(context, "Erro ao abrir produto", exception.toString());
+    } catch (exception) {
+      ErrorHandler()
+          .showError(context, "Erro ao abrir produto", exception.toString());
     }
   }
 
   Future<Product?> _saveProduct() async {
     _product!.description = _descriptionController.text;
-    try{
+    try {
       await repository.update(_product!);
-    } catch(exception) {
-      ErrorHandler().showError(context, "Erro ao salvar a edição do produto", exception.toString());
+    } catch (exception) {
+      ErrorHandler().showError(
+          context, "Erro ao salvar a edição do produto", exception.toString());
     }
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -102,11 +103,10 @@ class _UpdateProductState extends State<UpdateProductPage> {
     _findProduct();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Editar produto"),
-      ),
-      drawer: const AppDrawer(),
-      body: _buildForm(context)
-    );
+        appBar: AppBar(
+          title: const Text("Editar produto"),
+        ),
+        drawer: const AppDrawer(),
+        body: _buildForm(context));
   }
 }

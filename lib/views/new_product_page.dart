@@ -28,17 +28,19 @@ class _NewProductPageState extends State<NewProductPage> {
 
   Future<Product?> _saveProduct() async {
     Product? newProduct;
-    try{
-      newProduct = await repository.save(Product.create(_descriptionController.text));
-    }catch(exception) {
-      ErrorHandler().showError(context, "Erro ao salvar produto", exception.toString());
+    try {
+      newProduct =
+          await repository.save(Product.create(_descriptionController.text));
+    } catch (exception) {
+      ErrorHandler()
+          .showError(context, "Erro ao salvar produto", exception.toString());
     }
-    
+
     _descriptionController.clear();
 
     ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Produto salvo com sucesso")));
-    
+
     return newProduct;
   }
 
@@ -79,11 +81,10 @@ class _NewProductPageState extends State<NewProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Cadastrar novo produto"),
-      ),
-      drawer: const AppDrawer(),
-      body: _buildForm(context)
-    );
+        appBar: AppBar(
+          title: const Text("Cadastrar novo produto"),
+        ),
+        drawer: const AppDrawer(),
+        body: _buildForm(context));
   }
 }
