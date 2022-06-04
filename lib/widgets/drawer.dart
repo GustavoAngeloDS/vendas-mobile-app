@@ -10,27 +10,21 @@ class AppDrawer extends StatelessWidget {
         child: ListView(padding: EdgeInsets.zero, children: <Widget>[
       _createHeader(),
       _createDrawerItem(
-          icon: Icons.add,
-          text: "Novo produto",
+          text: "Clientes",
+          icon: Icons.people,
           onTap: () =>
-              Navigator.pushReplacementNamed(context, Routes.newProduct)),
+              Navigator.pushReplacementNamed(context, Routes.listClients)),
       _createDrawerItem(
-          icon: Icons.add,
-          text: "Novo cliente",
-          onTap: () =>
-              Navigator.pushReplacementNamed(context, Routes.newClient)),
-      const Divider(),
-      _createDrawerItem(
-          icon: Icons.list,
-          text: "Listar produtos",
+          text: "Produtos",
+          icon: Icons.shopping_cart,
           onTap: () =>
               Navigator.pushReplacementNamed(context, Routes.listProducts)),
       _createDrawerItem(
-          icon: Icons.list,
-          text: "Listar clientes",
+          text: "Pedidos",
+          icon: Icons.shopping_basket,
           onTap: () =>
-              Navigator.pushReplacementNamed(context, Routes.listClients)),
-      ListTile(title: const Text("v0.1"), onTap: () {})
+              Navigator.pushReplacementNamed(context, Routes.listProducts)),
+      ListTile(title: const Text("v0.2"), onTap: () {})
     ]));
   }
 
