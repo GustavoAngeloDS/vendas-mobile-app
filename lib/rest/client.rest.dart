@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:vendas_flutter/ErrorDTO/error.dto.dart';
 import 'package:vendas_flutter/models/client.model.dart';
 import 'package:vendas_flutter/rest/api.dart';
 
@@ -11,7 +12,7 @@ class ClientRest {
       return Client.fromJson(response.body);
     } else {
       throw Exception(
-          'Erro ao buscar o cliente $id. Erro: [${response.statusCode}]');
+          'Erro ao buscar o cliente $id. Motivo: ${ErrorDTO.fromJson(response.body).message}');
     }
   }
 
@@ -22,7 +23,7 @@ class ClientRest {
       return Client.fromJsonList(response.body);
     } else {
       throw Exception(
-          'Erro ao buscar todos os clientes. Erro: [${response.statusCode}]');
+          'Erro ao buscar todos os clientes. Motivo: ${ErrorDTO.fromJson(response.body).message}');
     }
   }
 
@@ -38,7 +39,7 @@ class ClientRest {
       return Client.fromJson(response.body);
     } else {
       throw Exception(
-          'Erro ao inserir o cliente. Erro: [${response.statusCode}]');
+          'Erro ao inserir o cliente. Motivo: ${ErrorDTO.fromJson(response.body).message}');
     }
   }
 
@@ -54,7 +55,7 @@ class ClientRest {
       return client;
     } else {
       throw Exception(
-          'Erro ao alterar o cliente ${client.id}. Erro: [${response.statusCode}]');
+          'Erro ao alterar o cliente ${client.id}. Motivo: ${ErrorDTO.fromJson(response.body).message}');
     }
   }
 
@@ -68,7 +69,7 @@ class ClientRest {
 
     if (response.statusCode != 200) {
       throw Exception(
-          'Falha ao remover o cliente ${client.id}. Erro: [${response.statusCode}]');
+          'Falha ao remover o cliente ${client.id}. Motivo: ${ErrorDTO.fromJson(response.body).message}');
     }
     return client;
   }

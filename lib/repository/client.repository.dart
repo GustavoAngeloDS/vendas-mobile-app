@@ -13,11 +13,19 @@ class ClientRepository {
   }
 
   Future<Client> save(Client client) async {
-    return await restInterface.save(client);
+    try {
+      return await restInterface.save(client);
+    } catch (exception) {
+      rethrow;
+    }
   }
 
   Future<Client> update(Client client) async {
-    return await restInterface.update(client);
+    try {
+      return await restInterface.update(client);
+    } catch (exception) {
+      rethrow;
+    }
   }
 
   Future<Client> remove(Client client) async {

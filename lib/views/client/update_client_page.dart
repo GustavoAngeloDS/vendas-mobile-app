@@ -53,12 +53,12 @@ class _UpdateClientState extends State<UpdateClientPage> {
 
     try{
       await repository.update(_client!);
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Cliente editado com sucesso!')));
     } catch(exception) {
       ErrorHandler().showError(context, "Erro ao salvar a edição do cliente.", exception.toString());
+      return null;
     }
-
-    ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Cliente editado com sucesso!')));
   }
 
   Widget _buildForm(BuildContext context) {
@@ -103,8 +103,10 @@ class _UpdateClientState extends State<UpdateClientPage> {
             ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    await _saveProduct();
-                    Navigator.pushNamed(context, Routes.listClients);
+                    Client? client = await _saveProduct();
+                    if (client != null) {
+                      Navigator.pushNamed(context, Routes.listClients);
+                    }
                   }
                 },
                 child: const Text("Salvar")),

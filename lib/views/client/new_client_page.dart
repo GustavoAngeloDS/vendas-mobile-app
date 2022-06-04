@@ -33,20 +33,19 @@ class _NewClientPageState extends State<NewClientPage> {
 
   Future<Client?> _saveProduct() async {
     Client? newClient;
-    try{
+    try {
       newClient = await repository.save(Client.create(_cpfController.text, _nameController.text, _lastNameController.text));
-    }catch(exception) {
-      ErrorHandler().showError(context, "Erro ao salvar produto", exception.toString());
+      _cpfController.clear();
+      _nameController.clear();
+      _lastNameController.clear();
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Cliente salvo com sucesso.")));
+
+      return newClient;
+    } catch(exception) {
+      ErrorHandler().showError(context, "Erro ao salvar o cliente.", exception.toString());
+      return null;
     }
-
-    _cpfController.clear();
-    _nameController.clear();
-    _lastNameController.clear();
-
-    ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Cliente salvo com sucesso")));
-
-    return newClient;
   }
 
   Widget _buildForm(BuildContext context) {
@@ -91,11 +90,19 @@ class _NewClientPageState extends State<NewClientPage> {
           ElevatedButton(
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-                  await _saveProduct();
-                  Navigator.pushNamed(context, Routes.listClients);
+                  Client? client = await _saveProduct();
+                  if (client != null) {
+                    Navigator.pushNamed(context, Routes.listClients);
+                  }
                 }
               },
-              child: const Text("Salvar"))
+              child: const Text("Salvar")),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('Cancelar'),
+          ),
         ],
       )
     );

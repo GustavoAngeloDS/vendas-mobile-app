@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:vendas_flutter/models/client.model.dart';
 import 'package:vendas_flutter/repository/client.repository.dart';
+import 'package:vendas_flutter/routes/routes.dart';
 import 'package:vendas_flutter/utils/error_handler.dart';
-import 'package:vendas_flutter/view/client/update_client_page.dart';
+import 'package:vendas_flutter/views/client/update_client_page.dart';
 import 'package:vendas_flutter/widgets/drawer.dart';
 
 class ListClientPage extends StatefulWidget {
@@ -135,8 +136,15 @@ class _ListClientPage extends State<ListClientPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: const Text("Lista de clientes")),
-        drawer: const AppDrawer(),
         body: ListView.builder(
-            itemCount: _clientList.length, itemBuilder: _buildItem));
+            itemCount: _clientList.length, itemBuilder: _buildItem),
+        floatingActionButton: FloatingActionButton(
+        onPressed: () {
+        Navigator.pushNamed(context, Routes.newClient);
+        },
+        tooltip: "Adicionar cliente",
+        backgroundColor: Colors.green,
+        child: const Icon(Icons.add),
+        ));
   }
 }
