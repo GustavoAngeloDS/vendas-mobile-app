@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vendas_flutter/routes/routes.dart';
+import 'package:vendas_flutter/views/client/list_clients_page.dart';
+import 'package:vendas_flutter/views/client/new_client_page.dart';
+import 'package:vendas_flutter/views/client/update_client_page.dart';
 import 'package:vendas_flutter/views/list_product_page.dart';
 import 'package:vendas_flutter/views/new_product_page.dart';
 import 'package:vendas_flutter/views/update_product.dart';
@@ -22,6 +25,9 @@ class MyApp extends StatelessWidget {
           Routes.listProducts: (context) => const ListProductPage(),
           Routes.newProduct: (context) => const NewProductPage(),
           Routes.updateProduct: (context) => const UpdateProductPage(),
+          Routes.listClients: (context) => const ListClientPage(),
+          Routes.newClient: (context) => const NewClientPage(),
+          Routes.updateClient: (context) => const UpdateClientPage()
         });
   }
 }

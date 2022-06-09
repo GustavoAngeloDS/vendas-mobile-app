@@ -10,10 +10,10 @@ class AppDrawer extends StatelessWidget {
         child: ListView(padding: EdgeInsets.zero, children: <Widget>[
       _createHeader(),
       _createDrawerItem(
-          text: "Clients",
+          text: "Clientes",
           icon: Icons.people,
           onTap: () =>
-              Navigator.pushReplacementNamed(context, Routes.listProducts)),
+              Navigator.pushReplacementNamed(context, Routes.listClients)),
       _createDrawerItem(
           text: "Produtos",
           icon: Icons.shopping_cart,
