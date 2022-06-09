@@ -131,7 +131,6 @@ class _UpdateClientState extends State<UpdateClientPage> {
         appBar: AppBar(
           title: const Text("Editar cliente"),
         ),
-        drawer: const AppDrawer(),
         body: _buildForm(context)
     );
   }
