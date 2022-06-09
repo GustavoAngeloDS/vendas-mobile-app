@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:vendas_flutter/models/product.model.dart';
 import 'package:vendas_flutter/routes/routes.dart';
 import 'package:vendas_flutter/utils/error_handler.dart';
-import 'package:vendas_flutter/widgets/drawer.dart';
 
-import '../repository/product.repository.dart';
+import 'package:vendas_flutter/repository/product.repository.dart';
 
 class UpdateProductPage extends StatefulWidget {
   static const String routeName = "/update-product";

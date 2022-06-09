@@ -3,9 +3,9 @@ import 'package:vendas_flutter/routes/routes.dart';
 import 'package:vendas_flutter/views/client/list_clients_page.dart';
 import 'package:vendas_flutter/views/client/new_client_page.dart';
 import 'package:vendas_flutter/views/client/update_client_page.dart';
-import 'package:vendas_flutter/views/list_product_page.dart';
-import 'package:vendas_flutter/views/new_product_page.dart';
-import 'package:vendas_flutter/views/update_product.dart';
+import 'package:vendas_flutter/views/product/list_product_page.dart';
+import 'package:vendas_flutter/views/product/new_product_page.dart';
+import 'package:vendas_flutter/views/product/update_product.dart';
 import 'package:vendas_flutter/widgets/drawer.dart';
 
 void main() {
@@ -40,12 +40,19 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
+Widget _buildHome(BuildContext context) {
+  return Column(
+    children: const [Image(image: AssetImage("assets/images/venDASLogo.png"))],
+  );
+}
+
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
       drawer: const AppDrawer(),
+      body: _buildHome(context),
     );
   }
 }
