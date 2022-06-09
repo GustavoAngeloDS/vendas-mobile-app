@@ -41,8 +41,8 @@ class _ListClientPage extends State<ListClientPage> {
     try {
       clientList = await repository.findAll();
     } catch (exception) {
-      ErrorHandler()
-          .showError(context, "Erro ao listar os clientes.", exception.toString());
+      ErrorHandler().showError(
+          context, "Erro ao listar os clientes.", exception.toString());
     }
     return clientList;
   }
@@ -53,8 +53,8 @@ class _ListClientPage extends State<ListClientPage> {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Cliente removido com sucesso!')));
     } catch (exception) {
-      ErrorHandler()
-          .showError(context, "Erro ao remover o cliente.", exception.toString());
+      ErrorHandler().showError(
+          context, "Erro ao remover o cliente.", exception.toString());
     }
     return client;
   }
@@ -94,21 +94,21 @@ class _ListClientPage extends State<ListClientPage> {
     showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
-          title: const Text("Remover o cliente"),
-          content: Text("Remover o cliente ${client.name}?"),
-          actions: [
-            TextButton(
-                onPressed: () => {Navigator.of(context).pop()},
-                child: const Text("Não")),
-            TextButton(
-                onPressed: () async {
-                  await _removeClient(client);
-                  _refreshList();
-                  Navigator.of(context).pop();
-                },
-                child: const Text("Sim"))
-          ],
-        ));
+              title: const Text("Remover o cliente"),
+              content: Text("Remover o cliente ${client.name}?"),
+              actions: [
+                TextButton(
+                    onPressed: () => {Navigator.of(context).pop()},
+                    child: const Text("Não")),
+                TextButton(
+                    onPressed: () async {
+                      await _removeClient(client);
+                      _refreshList();
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("Sim"))
+              ],
+            ));
   }
 
   ListTile _buildItem(BuildContext context, int index) {
@@ -136,15 +136,16 @@ class _ListClientPage extends State<ListClientPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: const Text("Lista de clientes")),
+        drawer: const AppDrawer(),
         body: ListView.builder(
             itemCount: _clientList.length, itemBuilder: _buildItem),
         floatingActionButton: FloatingActionButton(
-        onPressed: () {
-        Navigator.pushNamed(context, Routes.newClient);
-        },
-        tooltip: "Adicionar cliente",
-        backgroundColor: Colors.green,
-        child: const Icon(Icons.add),
+          onPressed: () {
+            Navigator.pushNamed(context, Routes.newClient);
+          },
+          tooltip: "Adicionar cliente",
+          backgroundColor: Colors.green,
+          child: const Icon(Icons.add),
         ));
   }
 }

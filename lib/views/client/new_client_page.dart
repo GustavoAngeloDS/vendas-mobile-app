@@ -114,7 +114,6 @@ class _NewClientPageState extends State<NewClientPage> {
         appBar: AppBar(
           title: const Text("Cadastrar novo cliente"),
         ),
-        drawer: const AppDrawer(),
         body: _buildForm(context)
     );
   }
