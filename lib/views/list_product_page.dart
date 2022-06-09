@@ -50,7 +50,7 @@ class _ListProductPage extends State<ListProductPage> {
     try {
       await repository.remove(product);
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Produto removido com suecsso')));
+          const SnackBar(content: Text('Produto removido com sucesso')));
     } catch (exception) {
       ErrorHandler()
           .showError(context, "Erro ao remover produto", exception.toString());
@@ -133,6 +133,7 @@ class _ListProductPage extends State<ListProductPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: const Text("Produtos")),
+        drawer: const AppDrawer(),
         body: ListView.builder(
             itemCount: _productList.length, itemBuilder: _buildItem),
         floatingActionButton: FloatingActionButton(

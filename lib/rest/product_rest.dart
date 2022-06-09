@@ -5,8 +5,12 @@ import '../models/product.model.dart';
 
 class ProductRest {
   Future<Product> findById(int id) async {
-    final http.Response response =
-        await http.get(Uri.http(API.endpoint, "/products/$id"));
+    final http.Response response = await http
+        .get(Uri.http(API.endpoint, "/products/$id"))
+        .timeout(const Duration(seconds: API.timeout), onTimeout: () {
+      return http.Response("Request timeout", 408);
+    });
+
     if (response.statusCode == 200) {
       return Product.fromJson(response.body);
     } else {
@@ -16,8 +20,12 @@ class ProductRest {
   }
 
   Future<List<Product>> findAll() async {
-    final http.Response response =
-        await http.get(Uri.http(API.endpoint, "/products"));
+    final http.Response response = await http
+        .get(Uri.http(API.endpoint, "/products"))
+        .timeout(const Duration(seconds: API.timeout), onTimeout: () {
+      return http.Response("Request timeout", 408);
+    });
+
     if (response.statusCode == 200) {
       return Product.fromJsonList(response.body);
     } else {
@@ -27,12 +35,15 @@ class ProductRest {
   }
 
   Future<Product> save(Product product) async {
-    final http.Response response = await http.post(
-        Uri.http(API.endpoint, "/products"),
-        headers: <String, String>{
-          "Content-Type": "application/json; charset=UTF-8"
-        },
-        body: product.newProductToJson());
+    final http.Response response = await http
+        .post(Uri.http(API.endpoint, "/products"),
+            headers: <String, String>{
+              "Content-Type": "application/json; charset=UTF-8"
+            },
+            body: product.newProductToJson())
+        .timeout(const Duration(seconds: API.timeout), onTimeout: () {
+      return http.Response("Request timeout", 408);
+    });
 
     if (response.statusCode == 200) {
       return Product.fromJson(response.body);
@@ -43,12 +54,15 @@ class ProductRest {
   }
 
   Future<Product> update(Product product) async {
-    final http.Response response = await http.put(
-        Uri.http(API.endpoint, "/products"),
-        headers: <String, String>{
-          "Content-Type": "application/json; charset=UTF-8"
-        },
-        body: product.fullProductToJson());
+    final http.Response response = await http
+        .put(Uri.http(API.endpoint, "/products"),
+            headers: <String, String>{
+              "Content-Type": "application/json; charset=UTF-8"
+            },
+            body: product.fullProductToJson())
+        .timeout(const Duration(seconds: API.timeout), onTimeout: () {
+      return http.Response("Request timeout", 408);
+    });
 
     if (response.statusCode == 200) {
       return product;
@@ -59,12 +73,15 @@ class ProductRest {
   }
 
   Future<Product> remove(Product product) async {
-    final http.Response response = await http.delete(
-        Uri.http(API.endpoint, "/products"),
-        headers: <String, String>{
-          "Content-Type": "application/json; charset=UTF-8"
-        },
-        body: product.fullProductToJson());
+    final http.Response response = await http
+        .delete(Uri.http(API.endpoint, "/products"),
+            headers: <String, String>{
+              "Content-Type": "application/json; charset=UTF-8"
+            },
+            body: product.fullProductToJson())
+        .timeout(const Duration(seconds: API.timeout), onTimeout: () {
+      return http.Response("Request timeout", 408);
+    });
 
     if (response.statusCode != 200) {
       throw Exception(

@@ -31,15 +31,15 @@ class _NewProductPageState extends State<NewProductPage> {
     try {
       newProduct =
           await repository.save(Product.create(_descriptionController.text));
+
+      _descriptionController.clear();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Produto salvo com sucesso")));
     } catch (exception) {
       ErrorHandler()
           .showError(context, "Erro ao salvar produto", exception.toString());
     }
-
-    _descriptionController.clear();
-
-    ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Produto salvo com sucesso")));
 
     return newProduct;
   }
@@ -67,11 +67,19 @@ class _NewProductPageState extends State<NewProductPage> {
                 ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        await _saveProduct();
-                        Navigator.pushNamed(context, Routes.listProducts);
+                        Product? product = await _saveProduct();
+                        if (product != null) {
+                          Navigator.pushNamed(context, Routes.listProducts);
+                        }
                       }
                     },
-                    child: const Text("Salvar"))
+                    child: const Text("Salvar")),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Cancelar'),
+                ),
               ])
             ]))
       ],
@@ -84,7 +92,6 @@ class _NewProductPageState extends State<NewProductPage> {
         appBar: AppBar(
           title: const Text("Cadastrar novo produto"),
         ),
-        drawer: const AppDrawer(),
         body: _buildForm(context));
   }
 }
