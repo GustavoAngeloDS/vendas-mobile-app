@@ -36,29 +36,32 @@ class _UpdateClientState extends State<UpdateClientPage> {
   }
 
   void _findClient() async {
-    try{
+    try {
       _client = await repository.findById(_id);
       _cpfController.text = _client!.cpf;
       _nameController.text = _client!.name;
       _lastNameController.text = _client!.lastname;
-    } catch(exception) {
-      ErrorHandler().showError(context, "Erro ao abrir o cliente.", exception.toString());
+    } catch (exception) {
+      ErrorHandler()
+          .showError(context, "Erro ao abrir o cliente.", exception.toString());
     }
   }
 
-  Future<Client?> _saveProduct() async {
+  Future<Client?> _saveClient() async {
+    Client? client;
     _client!.cpf = _cpfController.text;
     _client!.name = _nameController.text;
     _client!.lastname = _lastNameController.text;
 
-    try{
-      await repository.update(_client!);
+    try {
+      client = await repository.update(_client!);
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Cliente editado com sucesso!')));
-    } catch(exception) {
-      ErrorHandler().showError(context, "Erro ao salvar a edição do cliente.", exception.toString());
-      return null;
+    } catch (exception) {
+      ErrorHandler().showError(
+          context, "Erro ao salvar a edição do cliente.", exception.toString());
     }
+    return client;
   }
 
   Widget _buildForm(BuildContext context) {
@@ -103,7 +106,7 @@ class _UpdateClientState extends State<UpdateClientPage> {
             ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    Client? client = await _saveProduct();
+                    Client? client = await _saveClient();
                     if (client != null) {
                       Navigator.pushNamed(context, Routes.listClients);
                     }
@@ -117,8 +120,7 @@ class _UpdateClientState extends State<UpdateClientPage> {
               child: const Text('Cancelar'),
             ),
           ],
-        )
-    );
+        ));
   }
 
   @override
@@ -131,7 +133,6 @@ class _UpdateClientState extends State<UpdateClientPage> {
         appBar: AppBar(
           title: const Text("Editar cliente"),
         ),
-        body: _buildForm(context)
-    );
+        body: _buildForm(context));
   }
 }
