@@ -133,7 +133,7 @@ class _ListOrderPage extends State<ListOrderPage> {
     Order order = _orderList[index];
 
     return ListTile(
-        leading: const Icon(Icons.shopping_cart),
+        leading: const Icon(Icons.shopping_bag_outlined),
         title: Text(order.client.name),
         subtitle: Text(order.date?.toString() ?? ""),
         onTap: () {
