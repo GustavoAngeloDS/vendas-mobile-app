@@ -2,12 +2,11 @@ import 'dart:convert';
 
 class Client {
   int? id;
-  late String cpf;
-  late String name;
-  late String lastname;
+  String cpf;
+  String name;
+  String lastname;
 
-  Client(
-      {this.id, required this.cpf, required this.name, required this.lastname});
+  Client(this.id, this.cpf, this.name, this.lastname);
 
   Client.create(this.cpf, this.name, this.lastname);
 
@@ -20,12 +19,7 @@ class Client {
   }
 
   static Client fromMap(Map<String, dynamic> map) {
-    return Client(
-      id: map["id"],
-      cpf: map["cpf"],
-      name: map["name"],
-      lastname: map["lastname"],
-    );
+    return Client(map["id"], map["cpf"], map["name"], map["lastname"]);
   }
 
   static List<Client> fromMaps(List<Map<String, dynamic>> maps) {

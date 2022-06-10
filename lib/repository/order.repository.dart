@@ -21,9 +21,9 @@ class OrderRepository {
     return await restInterface.findClientByText(text);
   }
 
-  // Future<Order> save(Order order) async {
-  //   return await restInterface.save(order);
-  // }
+  Future<Order> save(Order order) async {
+    return await restInterface.save(order);
+  }
 
   // Future<Order> update(Order order) async {
   //   return await restInterface.update(order);

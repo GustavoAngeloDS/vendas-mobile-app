@@ -5,6 +5,10 @@ import '../models/product.model.dart';
 class ProductRepository {
   final ProductRest restInterface = ProductRest();
 
+  Future<List<Product>> findProductByName(String name) async {
+    return await restInterface.findProductByName(name);
+  }
+
   Future<Product> findById(int id) async {
     return await restInterface.findById(id);
   }

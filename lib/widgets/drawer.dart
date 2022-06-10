@@ -10,41 +10,41 @@ class AppDrawer extends StatelessWidget {
         child: ListView(padding: EdgeInsets.zero, children: <Widget>[
       _createHeader(),
       _createDrawerItem(
-          icon: Icons.add,
-          text: "Novo produto",
+          text: "Home",
+          icon: Icons.home,
           onTap: () =>
-              Navigator.pushReplacementNamed(context, Routes.newProduct)),
+              Navigator.pushReplacementNamed(context, Routes.homePage)),
       const Divider(),
       _createDrawerItem(
-          icon: Icons.list,
-          text: "Listar produtos",
+          text: "Clientes",
+          icon: Icons.people,
+          onTap: () =>
+              Navigator.pushReplacementNamed(context, Routes.listClients)),
+      _createDrawerItem(
+          text: "Produtos",
+          icon: Icons.shopping_cart,
           onTap: () =>
               Navigator.pushReplacementNamed(context, Routes.listProducts)),
       _createDrawerItem(
-          icon: Icons.list,
-          text: "Listar Pedidos",
+          text: "Pedidos",
+          icon: Icons.shopping_basket,
           onTap: () =>
               Navigator.pushReplacementNamed(context, Routes.listOrders)),
-      ListTile(title: const Text("v0.1"), onTap: () {})
+      const Divider(),
+      ListTile(title: const Text("SDV Version: 0.3"), onTap: () {})
     ]));
   }
 
   Widget _createHeader() {
-    return DrawerHeader(
+    return const DrawerHeader(
       margin: EdgeInsets.zero,
       padding: EdgeInsets.zero,
-      decoration: const BoxDecoration(color: Colors.grey),
-      child: Stack(children: const <Widget>[
-        Positioned(
-          bottom: 12.0,
-          left: 16.0,
-          child: Text("Controle de VenDAS",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w500)),
-        )
-      ]),
+      decoration: BoxDecoration(
+          color: Colors.grey,
+          image: DecorationImage(
+              fit: BoxFit.fill,
+              image: AssetImage('assets/images/venDASLogoReduzido.png'))),
+      child: null,
     );
   }
 

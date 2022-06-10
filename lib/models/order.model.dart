@@ -6,20 +6,20 @@ import 'order_item.model.dart';
 
 class Order {
   int? id;
-  late String date;
+  late String? date;
   late List<OrderItem>? items;
   late Client client;
 
   Order(
       {this.id, required this.date, required this.items, required this.client});
 
-  Order.create(this.date, this.items, this.client);
+  Order.create(this.items, this.client);
 
-  Map<String, dynamic> newProductToMap() {
+  Map<String, dynamic> newOrderToMap() {
     return {"date": date, "items": items, "client": client};
   }
 
-  Map<String, dynamic> fullProductToMap() {
+  Map<String, dynamic> fullOrderToMap() {
     return {"id": id, "date": date, "items": items, "client": client};
   }
 
@@ -46,7 +46,7 @@ class Order {
     return parsed.map<Order>((map) => Order.fromMap(map)).toList();
   }
 
-  String newProductToJson() => jsonEncode(newProductToMap());
+  String newOrderToJson() => jsonEncode(newOrderToMap());
 
-  String fullProductToJson() => jsonEncode(fullProductToMap());
+  String fullOrderToJson() => jsonEncode(fullOrderToMap());
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vendas_flutter/models/product.model.dart';
 import 'package:vendas_flutter/repository/product.repository.dart';
+import 'package:vendas_flutter/routes/routes.dart';
 import 'package:vendas_flutter/utils/error_handler.dart';
-import 'package:vendas_flutter/view/update_product.dart';
 import 'package:vendas_flutter/widgets/drawer.dart';
 
 class ListProductPage extends StatefulWidget {
@@ -16,7 +16,7 @@ class ListProductPage extends StatefulWidget {
 class _ListProductPage extends State<ListProductPage> {
   List<Product> _productList = [];
   ProductRepository repository = ProductRepository();
-  
+
   @override
   void initState() {
     super.initState();
@@ -50,7 +50,7 @@ class _ListProductPage extends State<ListProductPage> {
     try {
       await repository.remove(product);
       ScaffoldMessenger.of(context).showSnackBar(
-           const SnackBar(content: Text('Produto removido com suecsso')));
+          const SnackBar(content: Text('Produto removido com sucesso')));
     } catch (exception) {
       ErrorHandler()
           .showError(context, "Erro ao remover produto", exception.toString());
@@ -79,10 +79,10 @@ class _ListProductPage extends State<ListProductPage> {
         });
   }
 
-  void _updateProdut(BuildContext context, int index) {
+  void _updateProduct(BuildContext context, int index) {
     Product product = _productList[index];
 
-    Navigator.pushNamed(context, UpdateProductPage.routeName,
+    Navigator.pushNamed(context, Routes.updateProduct,
         arguments: <String, int>{"id": product.id!});
   }
 
@@ -124,7 +124,7 @@ class _ListProductPage extends State<ListProductPage> {
           ];
         }, onSelected: (String option) {
           option == "edit"
-              ? _updateProdut(context, index)
+              ? _updateProduct(context, index)
               : _removeItem(context, index);
         }));
   }
@@ -132,9 +132,17 @@ class _ListProductPage extends State<ListProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Lista de produtos")),
+        appBar: AppBar(title: const Text("Produtos")),
         drawer: const AppDrawer(),
         body: ListView.builder(
-            itemCount: _productList.length, itemBuilder: _buildItem));
+            itemCount: _productList.length, itemBuilder: _buildItem),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushNamed(context, Routes.newProduct);
+          },
+          tooltip: "Adicionar produto",
+          backgroundColor: Colors.green,
+          child: const Icon(Icons.add),
+        ));
   }
 }

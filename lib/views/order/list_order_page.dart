@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vendas_flutter/models/client.model.dart';
 import 'package:vendas_flutter/models/order.model.dart';
 import 'package:vendas_flutter/repository/order.repository.dart';
+import 'package:vendas_flutter/routes/routes.dart';
 import 'package:vendas_flutter/utils/error_handler.dart';
 import 'package:vendas_flutter/widgets/drawer.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -73,8 +74,8 @@ class _ListOrderPage extends State<ListOrderPage> {
           return AlertDialog(
               title: Text(order.items![1].product.description),
               content: ListTile(
-                title: Text(order.date),
-                subtitle: Text(order.date),
+                title: Text(order.date?.toString() ?? ""),
+                subtitle: Text(order.date?.toString() ?? ""),
               ),
               actions: [
                 TextButton(
@@ -97,7 +98,7 @@ class _ListOrderPage extends State<ListOrderPage> {
     return ListTile(
         leading: const Icon(Icons.shopping_cart),
         title: Text(order.client.name),
-        subtitle: Text(order.date),
+        subtitle: Text(order.date?.toString() ?? ""),
         onTap: () {
           _showOrder(context, index);
         },
@@ -147,6 +148,14 @@ class _ListOrderPage extends State<ListOrderPage> {
             )),
         drawer: const AppDrawer(),
         body: ListView.builder(
-            itemCount: _orderList.length, itemBuilder: _buildItem));
+            itemCount: _orderList.length, itemBuilder: _buildItem),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushNamed(context, Routes.newOrder);
+          },
+          tooltip: "Adicionar pedido",
+          backgroundColor: Colors.green,
+          child: const Icon(Icons.add),
+        ));
   }
 }

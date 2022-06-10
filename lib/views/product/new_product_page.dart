@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:vendas_flutter/models/product.model.dart';
 import 'package:vendas_flutter/routes/routes.dart';
 import 'package:vendas_flutter/utils/error_handler.dart';
-import 'package:vendas_flutter/widgets/drawer.dart';
 
-import '../repository/product.repository.dart';
+import 'package:vendas_flutter/repository/product.repository.dart';
 
 class NewProductPage extends StatefulWidget {
   const NewProductPage({Key? key}) : super(key: key);
@@ -28,17 +27,19 @@ class _NewProductPageState extends State<NewProductPage> {
 
   Future<Product?> _saveProduct() async {
     Product? newProduct;
-    try{
-      newProduct = await repository.save(Product.create(_descriptionController.text));
-    }catch(exception) {
-      ErrorHandler().showError(context, "Erro ao salvar produto", exception.toString());
-    }
-    
-    _descriptionController.clear();
+    try {
+      newProduct =
+          await repository.save(Product.create(_descriptionController.text));
 
-    ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Produto salvo com sucesso")));
-    
+      _descriptionController.clear();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Produto salvo com sucesso")));
+    } catch (exception) {
+      ErrorHandler()
+          .showError(context, "Erro ao salvar produto", exception.toString());
+    }
+
     return newProduct;
   }
 
@@ -65,11 +66,19 @@ class _NewProductPageState extends State<NewProductPage> {
                 ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        await _saveProduct();
-                        Navigator.pushNamed(context, Routes.listProducts);
+                        Product? product = await _saveProduct();
+                        if (product != null) {
+                          Navigator.pushNamed(context, Routes.listProducts);
+                        }
                       }
                     },
-                    child: const Text("Salvar"))
+                    child: const Text("Salvar")),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Cancelar'),
+                ),
               ])
             ]))
       ],
@@ -79,11 +88,9 @@ class _NewProductPageState extends State<NewProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Cadastrar novo produto"),
-      ),
-      drawer: const AppDrawer(),
-      body: _buildForm(context)
-    );
+        appBar: AppBar(
+          title: const Text("Cadastrar novo produto"),
+        ),
+        body: _buildForm(context));
   }
 }

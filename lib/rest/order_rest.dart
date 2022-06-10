@@ -6,16 +6,16 @@ import 'package:vendas_flutter/models/order.model.dart';
 import 'package:vendas_flutter/rest/api.dart';
 
 class OrderRest {
-  // Future<Order> findById(int id) async {
-  //   final http.Response response =
-  //       await http.get(Uri.http(API.endpoint, "/orders/$id"));
-  //   if (response.statusCode == 200) {
-  //     return Order.fromJson(response.body);
-  //   } else {
-  //     throw Exception(
-  //         'Erro ao buscar pedido $id. Erro: [${response.statusCode}]');
-  //   }
-  // }
+  Future<Order> findById(int id) async {
+    final http.Response response =
+        await http.get(Uri.http(API.endpoint, '/orders/${id}'));
+    if (response.statusCode == 200) {
+      return Order.fromJson(response.body);
+    } else {
+      throw Exception(
+          'Erro ao buscar pedido: $id [code: ${response.statusCode}]');
+    }
+  }
 
   Future<List<Order>> findAll() async {
     final http.Response response =
@@ -48,20 +48,19 @@ class OrderRest {
     }
   }
 
-  // Future<Order> save(Order order) async {
-  //   final http.Response response = await http.post(
-  //       Uri.http(API.endpoint, "/orders"),
-  //       headers: <String, String>{
-  //         "Content-Type": "application/json; charset=UTF-8"
-  //       },
-  //       body: order.newOrderToJson());
-
-  //   if (response.statusCode == 200) {
-  //     return Order.fromJson(response.body);
-  //   } else {
-  //     throw Exception('Erro ao criar pedido. Erro: [${response.statusCode}]');
-  //   }
-  // }
+  Future<Order> save(Order order) async {
+    final http.Response response =
+        await http.post(Uri.http(API.endpoint, '/orders'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: order.newOrderToJson());
+    if (response.statusCode == 201) {
+      return Order.fromJson(response.body);
+    } else {
+      throw Exception('Erro ao criar pedido. Erro: [${response.statusCode}]');
+    }
+  }
 
   // Future<Order> update(Order order) async {
   //   final http.Response response = await http.put(

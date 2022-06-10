@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:vendas_flutter/routes/routes.dart';
-import 'package:vendas_flutter/view/list_product_page.dart';
-import 'package:vendas_flutter/view/new_product_page.dart';
-import 'package:vendas_flutter/view/order/list_order_page.dart';
-import 'package:vendas_flutter/view/update_product.dart';
+import 'package:vendas_flutter/views/client/list_clients_page.dart';
+import 'package:vendas_flutter/views/client/new_client_page.dart';
+import 'package:vendas_flutter/views/client/update_client_page.dart';
+import 'package:vendas_flutter/views/order/list_order_page.dart';
+import 'package:vendas_flutter/views/order/new_order_page.dart';
+import 'package:vendas_flutter/views/product/list_product_page.dart';
+import 'package:vendas_flutter/views/product/new_product_page.dart';
+import 'package:vendas_flutter/views/product/update_product.dart';
 import 'package:vendas_flutter/widgets/drawer.dart';
 
 void main() {
@@ -24,6 +28,10 @@ class MyApp extends StatelessWidget {
           Routes.newProduct: (context) => const NewProductPage(),
           Routes.updateProduct: (context) => const UpdateProductPage(),
           Routes.listOrders: (context) => const ListOrderPage(),
+          Routes.newOrder: (context) => const NewOrderPage(),
+          Routes.listClients: (context) => const ListClientPage(),
+          Routes.newClient: (context) => const NewClientPage(),
+          Routes.updateClient: (context) => const UpdateClientPage()
         });
   }
 }
@@ -36,12 +44,19 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
+Widget _buildHome(BuildContext context) {
+  return Column(
+    children: const [Image(image: AssetImage("assets/images/venDASLogo.png"))],
+  );
+}
+
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
+      body: _buildHome(context),
     );
   }
 }
