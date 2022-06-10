@@ -105,7 +105,7 @@ class _ListOrderPage extends State<ListOrderPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-              title: Text("Pedido ${order.id}"),
+              title: Text("Pedido #${order.id}"),
               content: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
