@@ -1,3 +1,4 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vendas_flutter/models/client.model.dart';
@@ -59,7 +60,7 @@ class _NewClientPageState extends State<NewClientPage> {
               controller: _cpfController,
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
-                // CpfInputFormatter(),
+                CpfInputFormatter(),
               ],
               validator: (value) {
                 if (value == null || value.isEmpty) {

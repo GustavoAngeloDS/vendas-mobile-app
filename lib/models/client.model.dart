@@ -19,8 +19,7 @@ class Client {
   }
 
   static Client fromMap(Map<String, dynamic> map) {
-    return Client(
-        map["id"], map["cpf"] ?? "", map["name"] ?? "", map["lastname"] ?? "");
+    return Client(map["id"], map["cpf"], map["name"], map["lastname"]);
   }
 
   static List<Client> fromMaps(List<Map<String, dynamic>> maps) {
