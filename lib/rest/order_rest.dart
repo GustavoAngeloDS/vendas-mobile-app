@@ -62,34 +62,19 @@ class OrderRest {
     }
   }
 
-  // Future<Order> update(Order order) async {
-  //   final http.Response response = await http.put(
-  //       Uri.http(API.endpoint, "/orders"),
-  //       headers: <String, String>{
-  //         "Content-Type": "application/json; charset=UTF-8"
-  //       },
-  //       body: order.fullOrderToJson());
+  Future<Order> update(Order order) async {
+    final http.Response response = await http.put(
+        Uri.http(API.endpoint, "/orders"),
+        headers: <String, String>{
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+        body: order.fullOrderToJson());
 
-  //   if (response.statusCode == 200) {
-  //     return order;
-  //   } else {
-  //     throw Exception(
-  //         'Erro ao alterar pedido ${order.id}. Erro: [${response.statusCode}]');
-  //   }
-  // }
-
-  // Future<Order> remove(Order order) async {
-  //   final http.Response response = await http.delete(
-  //       Uri.http(API.endpoint, "/orders"),
-  //       headers: <String, String>{
-  //         "Content-Type": "application/json; charset=UTF-8"
-  //       },
-  //       body: order.fullOrderToJson());
-
-  //   if (response.statusCode != 200) {
-  //     throw Exception(
-  //         'Falha ao remover pedido ${order.id}. Erro: [${response.statusCode}]');
-  //   }
-  //   return order;
-  // }
+    if (response.statusCode == 200) {
+      return order;
+    } else {
+      throw Exception(
+          'Erro ao alterar pedido ${order.id}. Erro: [${response.statusCode}]');
+    }
+  }
 }

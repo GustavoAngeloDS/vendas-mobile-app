@@ -6,31 +6,29 @@ import 'order_item.model.dart';
 
 class Order {
   int? id;
-  late String? date;
+  String? date;
   late List<OrderItem>? items;
   late Client client;
 
-  Order(
-      {this.id, required this.date, required this.items, required this.client});
+  Order({this.id, this.date, required this.items, required this.client});
 
-  Order.create(this.items, this.client);
+  Order.create(this.date, this.items, this.client);
 
   Map<String, dynamic> newOrderToMap() {
-    return {"date": date, "items": items, "client": client};
+    return {"items": items, "client": client};
   }
 
   Map<String, dynamic> fullOrderToMap() {
     return {"id": id, "date": date, "items": items, "client": client};
   }
 
-  factory Order.fromMap(Map<String, dynamic> map) {
-    final it = map['items'] as List<dynamic>;
-    return Order(
-        id: map["id"],
-        date: map["date"],
-        items: it.map((e) => OrderItem.fromMap(e)).toList(),
-        client: Client.fromMap(map["client"]));
-  }
+  Order.fromMap(Map<String, dynamic> map)
+      : id = map['id'] ?? 0,
+        date = map['date'] ?? "",
+        items = ((map['items'] ?? []) as List)
+            .map((e) => OrderItem.fromMap(e))
+            .toList(),
+        client = Client.fromMap(map["client"] ?? {});
 
   static List<Order> fromMaps(List<Map<String, dynamic>> maps) {
     return List.generate(maps.length, (i) {
@@ -49,4 +47,17 @@ class Order {
   String newOrderToJson() => jsonEncode(newOrderToMap());
 
   String fullOrderToJson() => jsonEncode(fullOrderToMap());
+
+  // dynamic toJson() {
+  //   final Map<String, dynamic> data = new Map<String, dynamic>();
+  //   data['id'] = this.id;
+  //   data['date'] = this.date;
+  //   if (this.items != null) {
+  //     data['items'] = this.items!.map((v) => v.toJson()).toList();
+  //   }
+  //   if (this.client != null) {
+  //     data['client'] = this.client!.toJson();
+  //   }
+  //   return jsonEncode(data);
+  // }
 }

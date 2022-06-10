@@ -19,7 +19,8 @@ class Client {
   }
 
   static Client fromMap(Map<String, dynamic> map) {
-    return Client(map["id"], map["cpf"], map["name"], map["lastname"]);
+    return Client(
+        map["id"], map["cpf"] ?? "", map["name"] ?? "", map["lastname"] ?? "");
   }
 
   static List<Client> fromMaps(List<Map<String, dynamic>> maps) {
@@ -38,4 +39,13 @@ class Client {
   String newClientToJson() => jsonEncode(newClientToMap());
 
   String fullClientToJson() => jsonEncode(fullClientToMap());
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['cpf'] = this.cpf;
+    data['name'] = this.name;
+    data['lastname'] = this.lastname;
+    return data;
+  }
 }

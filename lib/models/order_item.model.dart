@@ -10,7 +10,16 @@ class OrderItem {
 
   OrderItem.create(this.qtdade, this.product);
 
-  Map<String, dynamic> newProductToMap() {
+  OrderItem copy({
+    int? qtdade,
+    Product? product,
+  }) =>
+      OrderItem(
+        product: product ?? this.product,
+        qtdade: qtdade ?? this.qtdade,
+      );
+
+  Map<String, dynamic> newOrderItemToMap() {
     return {"qtdade": qtdade, "product": product};
   }
 
@@ -20,7 +29,8 @@ class OrderItem {
 
   factory OrderItem.fromMap(Map<String, dynamic> map) {
     return OrderItem(
-        qtdade: map["qtdade"], product: Product.fromMap(map["product"]));
+        qtdade: map["qtdade"] ?? 1,
+        product: Product.fromMap(map["product"] ?? {}));
   }
 
   static List<OrderItem> fromMaps(List<Map<String, dynamic>> maps) {
@@ -39,7 +49,16 @@ class OrderItem {
     return parsed.map<OrderItem>((map) => OrderItem.fromMap(map)).toList();
   }
 
-  String newProductToJson() => jsonEncode(newProductToMap());
+  String newProductToJson() => jsonEncode(newOrderItemToMap());
 
   String fullProductToJson() => jsonEncode(fullProductToMap());
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['qtdade'] = this.qtdade;
+    if (this.product != null) {
+      data['product'] = this.product!.toJson();
+    }
+    return data;
+  }
 }

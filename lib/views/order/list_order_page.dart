@@ -4,8 +4,12 @@ import 'package:vendas_flutter/models/order.model.dart';
 import 'package:vendas_flutter/repository/order.repository.dart';
 import 'package:vendas_flutter/routes/routes.dart';
 import 'package:vendas_flutter/utils/error_handler.dart';
+import 'package:vendas_flutter/views/order/update_order_page.dart';
 import 'package:vendas_flutter/widgets/drawer.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+
+import '../../models/order_item.model.dart';
+import '../../utils/model_builder.dart';
 
 class ListOrderPage extends StatefulWidget {
   const ListOrderPage({Key? key}) : super(key: key);
@@ -66,16 +70,49 @@ class _ListOrderPage extends State<ListOrderPage> {
     return orderList;
   }
 
+  Widget buildDataTable(Order order) {
+    final columns = ["Id", "Nome", "Qtdade"];
+
+    return Expanded(
+      child: DataTable(
+        columns: getColumns(columns),
+        rows: getRows(order.items!),
+      ),
+    );
+  }
+
+  List<DataColumn> getColumns(List<String> columns) {
+    return columns.map((column) {
+      return DataColumn(
+        label: Text(column),
+      );
+    }).toList();
+  }
+
+  List<DataRow> getRows(List<OrderItem> item) => item.map((OrderItem i) {
+        final cells = [i.product.id, i.product.description, i.qtdade];
+        return DataRow(
+            cells: Utils.modelBuilder(cells, (index, cell) {
+          return DataCell(
+            Text('$cell'),
+          );
+        }));
+      }).toList();
+
   void _showOrder(BuildContext context, int index) {
     Order order = _orderList[index];
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-              title: Text(order.items![1].product.description),
-              content: ListTile(
-                title: Text(order.date?.toString() ?? ""),
-                subtitle: Text(order.date?.toString() ?? ""),
+              title: Text("Pedido ${order.id}"),
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Cliente: ${order.client.name!}"),
+                  Text("Data: ${order.date!}"),
+                  buildDataTable(order),
+                ],
               ),
               actions: [
                 TextButton(
@@ -85,12 +122,12 @@ class _ListOrderPage extends State<ListOrderPage> {
         });
   }
 
-  // void _updateOrder(BuildContext context, int index) {
-  //   Order order = _orderList[index];
+  void _updateOrder(BuildContext context, int index) {
+    Order order = _orderList[index];
 
-  //   Navigator.pushNamed(context, UpdateProductPage.routeName,
-  //       arguments: <String, int>{"id": order.id!});
-  // }
+    Navigator.pushNamed(context, UpdateOrderPage.routeName,
+        arguments: <String, int>{"id": order.id!});
+  }
 
   ListTile _buildItem(BuildContext context, int index) {
     Order order = _orderList[index];
@@ -108,9 +145,7 @@ class _ListOrderPage extends State<ListOrderPage> {
             // const PopupMenuItem(value: "delete", child: Text("Remover")),
           ];
         }, onSelected: (String option) {
-          // option == "edit"
-          // ? _updateOrder(context, index)
-          // : _removeItem(context, index); descomentaremos depois
+          _updateOrder(context, index);
         }));
   }
 

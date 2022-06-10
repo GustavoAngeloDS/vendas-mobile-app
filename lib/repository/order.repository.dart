@@ -5,9 +5,9 @@ import 'package:vendas_flutter/rest/order_rest.dart';
 class OrderRepository {
   final OrderRest restInterface = OrderRest();
 
-  // Future<Order> findById(int id) async {
-  //   return await restInterface.findById(id);
-  // }
+  Future<Order> findById(int id) async {
+    return await restInterface.findById(id);
+  }
 
   Future<List<Order>> findAll() async {
     return await restInterface.findAll();
@@ -25,7 +25,7 @@ class OrderRepository {
     return await restInterface.save(order);
   }
 
-  // Future<Order> update(Order order) async {
-  //   return await restInterface.update(order);
-  // }
+  Future<Order> update(Order order) async {
+    return await restInterface.update(order);
+  }
 }

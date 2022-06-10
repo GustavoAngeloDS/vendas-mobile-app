@@ -13,21 +13,24 @@ import 'package:vendas_flutter/utils/model_builder.dart';
 
 import '../../widgets/text_dialog.dart';
 
-class NewOrderPage extends StatefulWidget {
-  const NewOrderPage({Key? key}) : super(key: key);
-  static const String routeName = "/new-order";
+class UpdateOrderPage extends StatefulWidget {
+  const UpdateOrderPage({Key? key}) : super(key: key);
+  static const String routeName = "/update-order";
 
   @override
-  State<StatefulWidget> createState() => _NewOrderPageState();
+  State<StatefulWidget> createState() => _UpdateOrderPageState();
 }
 
-class _NewOrderPageState extends State<NewOrderPage> {
+class _UpdateOrderPageState extends State<UpdateOrderPage> {
   final _formKey = GlobalKey<FormState>();
   final _dateController = TextEditingController();
   final _nameController = TextEditingController();
   final _cpfController = TextEditingController();
   List<OrderItem> orderitemlist = [];
   late Client client;
+  late int _id = 0;
+  late Order _order;
+  var counter = 0;
 
   void _addItem(OrderItem orderItem) async {
     setState(() {
@@ -35,11 +38,10 @@ class _NewOrderPageState extends State<NewOrderPage> {
     });
   }
 
-  void _setClient(Client c) async {
+  void _loadItems(List<OrderItem> orderItem) async {
     setState(() {
-      client = c;
+      orderitemlist.addAll(orderItem);
     });
-    print("entrou set client");
   }
 
   void _editList(OrderItem orderItem, int quantity) async {
@@ -63,11 +65,28 @@ class _NewOrderPageState extends State<NewOrderPage> {
     super.dispose();
   }
 
-  Future<Order?> _saveOrder(Order order) async {
+  void _findOrder() async {
     try {
-      order = await orderRepository.save(order);
+      _order = await orderRepository.findById(_id);
+      _nameController.text = _order.client!.name;
+      _cpfController.text = _order.client.cpf;
+      if (counter == 0) {
+        counter++;
+        _loadItems(_order.items!);
+      }
+    } catch (exception) {
+      ErrorHandler()
+          .showError(context, "Erro ao abrir o cliente.", exception.toString());
+    }
+  }
+
+  Future<Order?> _saveOrder() async {
+    Order? order;
+    _order.items = orderitemlist;
+    try {
+      order = await orderRepository.update(_order!);
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Pedido criado com sucesso!')));
+          const SnackBar(content: Text('Pedido editado com sucesso!')));
     } catch (exception) {
       ErrorHandler().showError(
           context, "Erro ao salvar a edição do pedido.", exception.toString());
@@ -82,7 +101,6 @@ class _NewOrderPageState extends State<NewOrderPage> {
       child: DataTable(
         columns: getColumns(columns),
         rows: getRows(orderitemlist),
-        showCheckboxColumn: true,
       ),
     );
   }
@@ -102,6 +120,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
           i.qtdade,
           "Deletar"
         ];
+
         return DataRow(
             cells: Utils.modelBuilder(cells, (index, cell) {
           final showEditIcon = index == 2;
@@ -120,9 +139,6 @@ class _NewOrderPageState extends State<NewOrderPage> {
           return DataCell(
             Text('$cell'),
             showEditIcon: showEditIcon,
-            onDoubleTap: () {
-              removeItem(i);
-            },
             onTap: () {
               if (index == 2) {
                 editQuantity(i);
@@ -132,18 +148,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
         }));
       }).toList();
 
-  Future removeItem(OrderItem orderItem) async {
-    final quantity = await showTextDialog(
-      context,
-      title: "Deseja remover o item?",
-      value: '',
-    );
-    print("quantidade: $quantity");
-    // _editList(orderItem, int.parse(quantity));
-  }
-
   Future editQuantity(OrderItem orderItem) async {
-    int qtty = 0;
     final quantity = await showTextDialog(
       context,
       title: "Quantidade",
@@ -183,11 +188,11 @@ class _NewOrderPageState extends State<NewOrderPage> {
         ),
         buildDataTable(),
         ElevatedButton(
-            style: ButtonStyle(alignment: Alignment.center),
+            style: const ButtonStyle(alignment: Alignment.center),
             onPressed: () async {
               if (orderitemlist.isNotEmpty) {
-                final result =
-                    await _saveOrder(Order.create('', orderitemlist, client));
+                final result = await _saveOrder();
+
                 if (result != null) {
                   Navigator.pushNamed(context, Routes.listOrders);
                 }
@@ -203,36 +208,6 @@ class _NewOrderPageState extends State<NewOrderPage> {
         key: _formKey,
         child: Column(
           children: [
-            TypeAheadField<Client?>(
-              textFieldConfiguration: const TextFieldConfiguration(
-                decoration: InputDecoration(
-                  labelText: "Buscar cliente",
-                  suffixIcon: Icon(Icons.search_sharp),
-                ),
-              ),
-              suggestionsCallback: (pattern) async {
-                if (pattern.isEmpty) {
-                  return <Client>[];
-                }
-                return await repository.findClientByText(pattern);
-              },
-              itemBuilder: (context, suggestion) {
-                return ListTile(
-                  leading: Icon(Icons.person),
-                  title: Text(suggestion!.name),
-                  subtitle: Text('\$${suggestion.cpf}'),
-                );
-              },
-              onSuggestionSelected: (suggestion) {
-                Client c1 = Client(suggestion?.id!, suggestion!.name,
-                    suggestion.cpf, suggestion.lastname);
-
-                _nameController.text = suggestion!.name;
-                _cpfController.text = suggestion.cpf;
-
-                _setClient(c1);
-              },
-            ),
             const Text("Nome"),
             TextFormField(
               controller: _nameController,
@@ -255,12 +230,31 @@ class _NewOrderPageState extends State<NewOrderPage> {
                 return null;
               },
             ),
+            // ElevatedButton(
+            //     onPressed: () async {
+            //       if (_formKey.currentState!.validate()) {
+            //         Client? client = await _saveProduct();
+            //         if (client != null) {
+            //           Navigator.pushNamed(context, Routes.listClients);
+            //         }
+            //       }
+            //     },
+            //     child: const Text("Salvar")),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     Navigator.pop(context);
+            //   },
+            //   child: const Text('Cancelar'),
+            // ),
           ],
         ));
   }
 
   @override
   Widget build(BuildContext context) {
+    final Map map = ModalRoute.of(context)!.settings.arguments as Map;
+    _id = map["id"];
+    _findOrder();
     return DefaultTabController(
       length: 2,
       child: Scaffold(
