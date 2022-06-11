@@ -227,7 +227,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
                 Client c1 = Client(suggestion?.id!, suggestion!.name,
                     suggestion.cpf, suggestion.lastname);
 
-                _nameController.text = suggestion!.name;
+                _nameController.text = suggestion.name;
                 _cpfController.text = suggestion.cpf;
 
                 _setClient(c1);

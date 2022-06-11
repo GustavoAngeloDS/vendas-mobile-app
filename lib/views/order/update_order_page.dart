@@ -68,7 +68,7 @@ class _UpdateOrderPageState extends State<UpdateOrderPage> {
   void _findOrder() async {
     try {
       _order = await orderRepository.findById(_id);
-      _nameController.text = _order.client!.name;
+      _nameController.text = _order.client.name;
       _cpfController.text = _order.client.cpf;
       if (counter == 0) {
         counter++;
@@ -84,7 +84,7 @@ class _UpdateOrderPageState extends State<UpdateOrderPage> {
     Order? order;
     _order.items = orderitemlist;
     try {
-      order = await orderRepository.update(_order!);
+      order = await orderRepository.update(_order);
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Pedido editado com sucesso!')));
     } catch (exception) {
@@ -95,7 +95,7 @@ class _UpdateOrderPageState extends State<UpdateOrderPage> {
   }
 
   Widget buildDataTable() {
-    final columns = ["Id", "Nome", "Qtdade", "Deletar"];
+    final columns = ["Id", "Nome", "Qtdade", ""];
 
     return Expanded(
       child: DataTable(

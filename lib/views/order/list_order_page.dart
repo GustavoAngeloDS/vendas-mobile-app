@@ -109,7 +109,7 @@ class _ListOrderPage extends State<ListOrderPage> {
               content: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Cliente: ${order.client.name!}"),
+                  Text("Cliente: ${order.client.name}"),
                   Text("Data: ${order.date!}"),
                   buildDataTable(order),
                 ],

@@ -54,11 +54,9 @@ class OrderItem {
   String fullProductToJson() => jsonEncode(fullProductToMap());
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['qtdade'] = this.qtdade;
-    if (this.product != null) {
-      data['product'] = this.product!.toJson();
-    }
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['qtdade'] = qtdade;
+    data['product'] = product.toJson();
     return data;
   }
 }
