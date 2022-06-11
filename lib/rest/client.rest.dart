@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:vendas_flutter/ErrorDTO/error.dto.dart';
 import 'package:vendas_flutter/models/client.model.dart';
@@ -9,7 +11,7 @@ class ClientRest {
     final http.Response response =
     await http.get(Uri.http(API.endpoint, "/clients/$id"));
     if (response.statusCode == 200) {
-      return Client.fromJson(response.body);
+      return Client.fromJson(utf8.decode(response.body.codeUnits));
     } else {
       throw Exception(
           'Erro ao buscar o cliente $id. Motivo: ${ErrorDTO.fromJson(response.body).message}');
@@ -20,7 +22,7 @@ class ClientRest {
     final http.Response response =
     await http.get(Uri.http(API.endpoint, "/clients"));
     if (response.statusCode == 200) {
-      return Client.fromJsonList(response.body);
+      return Client.fromJsonList(utf8.decode(response.body.codeUnits));
     } else {
       throw Exception(
           'Erro ao buscar todos os clientes. Motivo: ${ErrorDTO.fromJson(response.body).message}');
@@ -36,7 +38,7 @@ class ClientRest {
         body: client.newClientToJson());
 
     if (response.statusCode == 200) {
-      return Client.fromJson(response.body);
+      return Client.fromJson(utf8.decode(response.body.codeUnits));
     } else {
       throw Exception(
           'Erro ao inserir o cliente. Motivo: ${ErrorDTO.fromJson(response.body).message}');

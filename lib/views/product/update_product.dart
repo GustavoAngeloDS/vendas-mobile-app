@@ -31,7 +31,11 @@ class _UpdateProductState extends State<UpdateProductPage> {
 
   void _findProduct() async {
     try {
-      _product = await repository.findById(_id);
+      var productValidator = await repository.findById(_id);
+      if (_product?.id == _id && _product != productValidator) {
+        return;
+      }
+      _product = productValidator;
       _descriptionController.text = _product!.description;
     } catch (exception) {
       ErrorHandler()

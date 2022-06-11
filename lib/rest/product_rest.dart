@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:vendas_flutter/rest/api.dart';
 
@@ -12,7 +14,7 @@ class ProductRest {
     });
 
     if (response.statusCode == 200) {
-      return Product.fromJson(response.body);
+      return Product.fromJson(utf8.decode(response.body.codeUnits));
     } else {
       throw Exception(
           'Erro ao buscar produto $id. Erro: [${response.statusCode}]');
@@ -27,7 +29,7 @@ class ProductRest {
     });
 
     if (response.statusCode == 200) {
-      return Product.fromJsonList(response.body);
+      return Product.fromJsonList(utf8.decode(response.body.codeUnits));
     } else {
       throw Exception(
           'Erro ao buscar todos os produtos. Erro: [${response.statusCode}]');
@@ -46,7 +48,7 @@ class ProductRest {
     });
 
     if (response.statusCode == 200) {
-      return Product.fromJson(response.body);
+      return Product.fromJson(utf8.decode(response.body.codeUnits));
     } else {
       throw Exception(
           'Erro ao inserir produto. Erro: [${response.statusCode}]');
