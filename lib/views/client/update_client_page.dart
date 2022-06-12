@@ -37,7 +37,11 @@ class _UpdateClientState extends State<UpdateClientPage> {
 
   void _findClient() async {
     try {
-      _client = await repository.findById(_id);
+      var clientValidator = await repository.findById(_id);
+      if (_client?.id == _id && _client != clientValidator) {
+        return;
+      }
+      _client = clientValidator;
       _cpfController.text = _client!.cpf;
       _nameController.text = _client!.name;
       _lastNameController.text = _client!.lastname;
