@@ -15,6 +15,8 @@ dependencies:
   brasil_fields: 1.4.5
 
   cupertino_icons: ^1.0.2
+  flutter_typeahead: ^4.0.0
+  editable: ^2.0.0
 
 dev_dependencies:
   flutter_test:

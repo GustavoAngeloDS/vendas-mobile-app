@@ -17,7 +17,7 @@ class Product {
   }
 
   static Product fromMap(Map<String, dynamic> map) {
-    return Product(map["id"], map["description"]);
+    return Product(map["id"], map["description"] ?? "");
   }
 
   static List<Product> fromMaps(List<Map<String, dynamic>> maps) {
@@ -36,4 +36,11 @@ class Product {
   String newProductToJson() => jsonEncode(newProductToMap());
 
   String fullProductToJson() => jsonEncode(fullProductToMap());
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['description'] = this.description;
+    return data;
+  }
 }

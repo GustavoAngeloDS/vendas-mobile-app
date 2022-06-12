@@ -4,6 +4,17 @@ import 'package:vendas_flutter/rest/api.dart';
 import '../models/product.model.dart';
 
 class ProductRest {
+  Future<List<Product>> findProductByName(String text) async {
+    final http.Response response =
+        await http.get(Uri.http(API.endpoint, "/products/search/$text"));
+    if (response.statusCode == 200) {
+      return Product.fromJsonList(response.body);
+    } else {
+      throw Exception(
+          'Erro ao buscar produtos. Erro: [${response.statusCode}]');
+    }
+  }
+
   Future<Product> findById(int id) async {
     final http.Response response = await http
         .get(Uri.http(API.endpoint, "/products/$id"))

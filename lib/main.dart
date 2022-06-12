@@ -3,6 +3,9 @@ import 'package:vendas_flutter/routes/routes.dart';
 import 'package:vendas_flutter/views/client/list_clients_page.dart';
 import 'package:vendas_flutter/views/client/new_client_page.dart';
 import 'package:vendas_flutter/views/client/update_client_page.dart';
+import 'package:vendas_flutter/views/order/list_order_page.dart';
+import 'package:vendas_flutter/views/order/new_order_page.dart';
+import 'package:vendas_flutter/views/order/update_order_page.dart';
 import 'package:vendas_flutter/views/product/list_product_page.dart';
 import 'package:vendas_flutter/views/product/new_product_page.dart';
 import 'package:vendas_flutter/views/product/update_product.dart';
@@ -25,6 +28,9 @@ class MyApp extends StatelessWidget {
           Routes.listProducts: (context) => const ListProductPage(),
           Routes.newProduct: (context) => const NewProductPage(),
           Routes.updateProduct: (context) => const UpdateProductPage(),
+          Routes.listOrders: (context) => const ListOrderPage(),
+          Routes.newOrder: (context) => const NewOrderPage(),
+          Routes.updateOrder: (context) => const UpdateOrderPage(),
           Routes.listClients: (context) => const ListClientPage(),
           Routes.newClient: (context) => const NewClientPage(),
           Routes.updateClient: (context) => const UpdateClientPage()

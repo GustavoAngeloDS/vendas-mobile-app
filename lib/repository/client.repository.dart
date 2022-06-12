@@ -4,6 +4,10 @@ import 'package:vendas_flutter/rest/client.rest.dart';
 class ClientRepository {
   final ClientRest restInterface = ClientRest();
 
+  Future<List<Client>> findClientByText(String text) async {
+    return await restInterface.findClientByText(text);
+  }
+
   Future<Client> findById(int id) async {
     return await restInterface.findById(id);
   }

@@ -29,7 +29,7 @@ class AppDrawer extends StatelessWidget {
           text: "Pedidos",
           icon: Icons.shopping_basket,
           onTap: () =>
-              Navigator.pushReplacementNamed(context, Routes.listProducts)),
+              Navigator.pushReplacementNamed(context, Routes.listOrders)),
       const Divider(),
       ListTile(title: const Text("SDV Version: 0.3"), onTap: () {})
     ]));
@@ -43,7 +43,8 @@ class AppDrawer extends StatelessWidget {
           color: Colors.grey,
           image: DecorationImage(
               fit: BoxFit.fill,
-              image: AssetImage('assets/images/venDASLogoReduzido.png'))), child: null,
+              image: AssetImage('assets/images/venDASLogoReduzido.png'))),
+      child: null,
     );
   }
 

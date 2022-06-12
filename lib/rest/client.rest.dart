@@ -4,10 +4,19 @@ import 'package:vendas_flutter/models/client.model.dart';
 import 'package:vendas_flutter/rest/api.dart';
 
 class ClientRest {
+  Future<List<Client>> findClientByText(String text) async {
+    final http.Response response =
+        await http.get(Uri.http(API.endpoint, "/clients/search/$text"));
+    if (response.statusCode == 200) {
+      return Client.fromJsonList(response.body);
+    } else {
+      throw Exception('Erro ao buscar cliente. Erro: [${response.statusCode}]');
+    }
+  }
 
   Future<Client> findById(int id) async {
     final http.Response response =
-    await http.get(Uri.http(API.endpoint, "/clients/$id"));
+        await http.get(Uri.http(API.endpoint, "/clients/$id"));
     if (response.statusCode == 200) {
       return Client.fromJson(response.body);
     } else {
@@ -18,7 +27,7 @@ class ClientRest {
 
   Future<List<Client>> findAll() async {
     final http.Response response =
-    await http.get(Uri.http(API.endpoint, "/clients"));
+        await http.get(Uri.http(API.endpoint, "/clients"));
     if (response.statusCode == 200) {
       return Client.fromJsonList(response.body);
     } else {

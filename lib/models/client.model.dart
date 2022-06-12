@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class Client {
-  int ?id;
+  int? id;
   String cpf;
   String name;
   String lastname;
@@ -11,29 +11,15 @@ class Client {
   Client.create(this.cpf, this.name, this.lastname);
 
   Map<String, dynamic> newClientToMap() {
-    return {
-      "cpf": cpf,
-      "name": name,
-      "lastname": lastname
-    };
+    return {"cpf": cpf, "name": name, "lastname": lastname};
   }
 
   Map<String, dynamic> fullClientToMap() {
-    return {
-      "id": id,
-      "cpf": cpf,
-      "name": name,
-      "lastname": lastname
-    };
+    return {"id": id, "cpf": cpf, "name": name, "lastname": lastname};
   }
 
   static Client fromMap(Map<String, dynamic> map) {
-    return Client(
-        map["id"],
-        map["cpf"],
-        map["name"],
-        map["lastname"]
-    );
+    return Client(map["id"], map["cpf"], map["name"], map["lastname"]);
   }
 
   static List<Client> fromMaps(List<Map<String, dynamic>> maps) {
@@ -52,4 +38,13 @@ class Client {
   String newClientToJson() => jsonEncode(newClientToMap());
 
   String fullClientToJson() => jsonEncode(fullClientToMap());
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['cpf'] = this.cpf;
+    data['name'] = this.name;
+    data['lastname'] = this.lastname;
+    return data;
+  }
 }

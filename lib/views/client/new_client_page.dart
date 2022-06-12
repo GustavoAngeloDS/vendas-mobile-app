@@ -34,7 +34,8 @@ class _NewClientPageState extends State<NewClientPage> {
   Future<Client?> _saveProduct() async {
     Client? newClient;
     try {
-      newClient = await repository.save(Client.create(_cpfController.text, _nameController.text, _lastNameController.text));
+      newClient = await repository.save(Client.create(
+          _cpfController.text, _nameController.text, _lastNameController.text));
       _cpfController.clear();
       _nameController.clear();
       _lastNameController.clear();
@@ -42,70 +43,70 @@ class _NewClientPageState extends State<NewClientPage> {
           const SnackBar(content: Text("Cliente salvo com sucesso.")));
 
       return newClient;
-    } catch(exception) {
-      ErrorHandler().showError(context, "Erro ao salvar o cliente.", exception.toString());
+    } catch (exception) {
+      ErrorHandler().showError(
+          context, "Erro ao salvar o cliente.", exception.toString());
       return null;
     }
   }
 
   Widget _buildForm(BuildContext context) {
     return Form(
-      key: _formKey,
-      child: Column(
-        children: [
-          const Text("CPF"),
-          TextFormField(
-            controller: _cpfController,
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-              CpfInputFormatter(),
-            ],
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return "Campo não pode ser vazio";
-              }
-              return null;
-            },
-          ),
-          const Text("Nome"),
-          TextFormField(
-            controller: _nameController,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return "Campo não pode ser vazio";
-              }
-              return null;
-            },
-          ),
-          const Text("Sobrenome"),
-          TextFormField(
-            controller: _lastNameController,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return "Campo não pode ser vazio";
-              }
-              return null;
-            },
-          ),
-          ElevatedButton(
-              onPressed: () async {
-                if (_formKey.currentState!.validate()) {
-                  Client? client = await _saveProduct();
-                  if (client != null) {
-                    Navigator.pushNamed(context, Routes.listClients);
-                  }
+        key: _formKey,
+        child: Column(
+          children: [
+            const Text("CPF"),
+            TextFormField(
+              controller: _cpfController,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                CpfInputFormatter(),
+              ],
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Campo não pode ser vazio";
                 }
+                return null;
               },
-              child: const Text("Salvar")),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text('Cancelar'),
-          ),
-        ],
-      )
-    );
+            ),
+            const Text("Nome"),
+            TextFormField(
+              controller: _nameController,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Campo não pode ser vazio";
+                }
+                return null;
+              },
+            ),
+            const Text("Sobrenome"),
+            TextFormField(
+              controller: _lastNameController,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Campo não pode ser vazio";
+                }
+                return null;
+              },
+            ),
+            ElevatedButton(
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    Client? client = await _saveProduct();
+                    if (client != null) {
+                      Navigator.pushNamed(context, Routes.listClients);
+                    }
+                  }
+                },
+                child: const Text("Salvar")),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Cancelar'),
+            ),
+          ],
+        ));
   }
 
   @override
@@ -114,7 +115,6 @@ class _NewClientPageState extends State<NewClientPage> {
         appBar: AppBar(
           title: const Text("Cadastrar novo cliente"),
         ),
-        body: _buildForm(context)
-    );
+        body: _buildForm(context));
   }
 }
