@@ -5,6 +5,8 @@ import 'package:vendas_flutter/models/client.model.dart';
 import 'package:vendas_flutter/models/order.model.dart';
 import 'package:vendas_flutter/rest/api.dart';
 
+import '../ErrorDTO/error.dto.dart';
+
 class OrderRest {
   Future<Order> findById(int id) async {
     final http.Response response =
@@ -76,5 +78,20 @@ class OrderRest {
       throw Exception(
           'Erro ao alterar pedido ${order.id}. Erro: [${response.statusCode}]');
     }
+  }
+
+  Future<Order> remove(Order order) async {
+    final http.Response response = await http.delete(
+        Uri.http(API.endpoint, "/orders"),
+        headers: <String, String>{
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+        body: order.fullOrderToJson());
+
+    if (response.statusCode != 200) {
+      throw Exception(
+          'Falha ao remover o pedido ${order.id}. Motivo: ${ErrorDTO.fromJson(response.body).message}');
+    }
+    return order;
   }
 }

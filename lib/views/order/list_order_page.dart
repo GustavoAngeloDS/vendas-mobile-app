@@ -129,6 +129,40 @@ class _ListOrderPage extends State<ListOrderPage> {
         arguments: <String, int>{"id": order.id!});
   }
 
+  Future<Order> _removeOrder(Order order) async {
+    try {
+      await repository.remove(order);
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Pedido removido com sucesso!')));
+    } catch (exception) {
+      ErrorHandler().showError(
+          context, "Erro ao remover o pedido.", exception.toString());
+    }
+    return order;
+  }
+
+  void _removeItem(BuildContext context, int index) {
+    Order order = _orderList[index];
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+              title: const Text("Remover o pedido"),
+              content: Text("Remover o pedido ${order.client.name}?"),
+              actions: [
+                TextButton(
+                    onPressed: () => {Navigator.of(context).pop()},
+                    child: const Text("Não")),
+                TextButton(
+                    onPressed: () async {
+                      await _removeOrder(order);
+                      _refreshList();
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("Sim"))
+              ],
+            ));
+  }
+
   ListTile _buildItem(BuildContext context, int index) {
     Order order = _orderList[index];
 
@@ -142,10 +176,14 @@ class _ListOrderPage extends State<ListOrderPage> {
         trailing: PopupMenuButton(itemBuilder: (context) {
           return [
             const PopupMenuItem(value: "edit", child: Text("Editar")),
-            // const PopupMenuItem(value: "delete", child: Text("Remover")),
+            const PopupMenuItem(value: "delete", child: Text("Remover")),
           ];
         }, onSelected: (String option) {
-          _updateOrder(context, index);
+          if (option == "delete") {
+            _removeItem(context, index);
+          } else if (option == "edit") {
+            _updateOrder(context, index);
+          }
         }));
   }
 

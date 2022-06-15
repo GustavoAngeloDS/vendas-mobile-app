@@ -28,4 +28,8 @@ class OrderRepository {
   Future<Order> update(Order order) async {
     return await restInterface.update(order);
   }
+
+  Future<Order> remove(Order order) async {
+    return await restInterface.remove(order);
+  }
 }
