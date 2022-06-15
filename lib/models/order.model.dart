@@ -47,17 +47,4 @@ class Order {
   String newOrderToJson() => jsonEncode(newOrderToMap());
 
   String fullOrderToJson() => jsonEncode(fullOrderToMap());
-
-  // dynamic toJson() {
-  //   final Map<String, dynamic> data = new Map<String, dynamic>();
-  //   data['id'] = this.id;
-  //   data['date'] = this.date;
-  //   if (this.items != null) {
-  //     data['items'] = this.items!.map((v) => v.toJson()).toList();
-  //   }
-  //   if (this.client != null) {
-  //     data['client'] = this.client!.toJson();
-  //   }
-  //   return jsonEncode(data);
-  // }
 }
