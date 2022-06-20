@@ -47,16 +47,17 @@ class _ListClientPage extends State<ListClientPage> {
     return clientList;
   }
 
-  Future<Client> _removeClient(Client client) async {
+  Future<Client?> _removeClient(Client client) async {
     try {
       await repository.remove(client);
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Cliente removido com sucesso!')));
+      return client;
     } catch (exception) {
       ErrorHandler().showError(
           context, "Erro ao remover o cliente.", exception.toString());
+      return null;
     }
-    return client;
   }
 
   void _showClient(BuildContext context, int index) {
@@ -102,9 +103,11 @@ class _ListClientPage extends State<ListClientPage> {
                     child: const Text("Não")),
                 TextButton(
                     onPressed: () async {
-                      await _removeClient(client);
-                      _refreshList();
-                      Navigator.of(context).pop();
+                      Client? clientRemoved = await _removeClient(client);
+                      if (clientRemoved != null) {
+                        _refreshList();
+                        Navigator.of(context).pop();
+                      }
                     },
                     child: const Text("Sim"))
               ],

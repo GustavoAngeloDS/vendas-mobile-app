@@ -80,7 +80,7 @@ class ClientRest {
 
     if (response.statusCode != 200) {
       throw Exception(
-          'Falha ao remover o cliente ${client.id}. Motivo: ${ErrorDTO.fromJson(response.body).message}');
+          'Falha ao remover o cliente ${client.id}. Motivo: ${ErrorDTO.fromJson(utf8.decode(response.body.codeUnits)).message}');
     }
     return client;
   }
