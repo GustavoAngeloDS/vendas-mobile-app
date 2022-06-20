@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:vendas_flutter/rest/api.dart';
 
+import '../ErrorDTO/error.dto.dart';
 import '../models/product.model.dart';
 
 class ProductRest {
@@ -98,7 +99,7 @@ class ProductRest {
 
     if (response.statusCode != 200) {
       throw Exception(
-          'Falha ao remover produto ${product.id}. Erro: [${response.statusCode}]');
+          'Falha ao remover produto ${product.id}. Erro: ${ErrorDTO.fromJson(utf8.decode(response.body.codeUnits)).message}');
     }
     return product;
   }
