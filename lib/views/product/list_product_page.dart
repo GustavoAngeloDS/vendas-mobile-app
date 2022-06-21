@@ -46,14 +46,14 @@ class _ListProductPage extends State<ListProductPage> {
     return productList;
   }
 
-  Future<Product> _removeProduct(Product product) async {
+  Future<Product?> _removeProduct(Product product) async {
     try {
       await repository.remove(product);
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Produto removido com sucesso')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Produto removido com sucesso')));
     } catch (exception) {
       ErrorHandler()
           .showError(context, "Erro ao remover produto", exception.toString());
+          return null;
     }
     return product;
   }
@@ -99,9 +99,11 @@ class _ListProductPage extends State<ListProductPage> {
                     child: const Text("Não")),
                 TextButton(
                     onPressed: () async {
-                      await _removeProduct(product);
-                      _refreshList();
-                      Navigator.of(context).pop();
+                      Product? removedProduct = await _removeProduct(product);
+                      if(removedProduct != null) {
+                        _refreshList();
+                        Navigator.of(context).pop();
+                      }
                     },
                     child: const Text("Sim"))
               ],
