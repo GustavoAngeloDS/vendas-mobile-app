@@ -11,7 +11,7 @@ class ProductRest {
     final http.Response response =
         await http.get(Uri.http(API.endpoint, "/products/search/$text"));
     if (response.statusCode == 200) {
-      return Product.fromJsonList(response.body);
+      return Product.fromJsonList(utf8.decode(response.body.codeUnits));
     } else {
       throw Exception(
           'Erro ao buscar produtos. Erro: [${response.statusCode}]');

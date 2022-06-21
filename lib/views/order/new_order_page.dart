@@ -171,7 +171,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
           },
           itemBuilder: (context, suggestion) {
             return ListTile(
-              leading: Icon(Icons.person),
+              leading: Icon(Icons.new_label_outlined),
               title: Text(suggestion!.description),
             );
           },

@@ -23,7 +23,7 @@ class OrderRest {
     final http.Response response =
         await http.get(Uri.http(API.endpoint, "/orders"));
     if (response.statusCode == 200) {
-      return Order.fromJsonList(response.body);
+      return Order.fromJsonList(utf8.decode(response.body.codeUnits));
     } else {
       throw Exception(
           'Erro ao buscar todos os pedidos. Erro: [${response.statusCode}]');
